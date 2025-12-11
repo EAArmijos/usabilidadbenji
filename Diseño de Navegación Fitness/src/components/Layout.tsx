@@ -1,9 +1,22 @@
-import { Outlet, Link, useLocation } from "react-router";
-import { Dumbbell, Home, Calendar, TrendingUp, Apple, User } from "lucide-react";
+import { Outlet, Link, useLocation, useNavigate } from "react-router";
+import { Dumbbell, Home, Calendar, TrendingUp, Apple, User, LogOut } from "lucide-react";
 import { Button } from "./ui/button";
+import { useAuth } from "../contexts/AuthContext";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { toast } from "sonner";
 
 export function Layout() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   const navItems = [
     { path: "/", label: "Inicio", icon: Home },
@@ -13,6 +26,14 @@ export function Layout() {
     { path: "/schedule", label: "Horario", icon: Calendar },
     { path: "/profile", label: "Perfil", icon: User },
   ];
+
+  const handleLogout = () => {
+    logout();
+    toast.success("Sesión cerrada", {
+      description: "Hasta pronto, ¡vuelve pronto!",
+    });
+    navigate("/login");
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
@@ -29,6 +50,34 @@ export function Layout() {
                 <p className="text-sm text-slate-600">Tu entrenador personal</p>
               </div>
             </div>
+            
+            {/* User Menu */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="gap-2">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src={user?.avatar} alt={user?.name} />
+                    <AvatarFallback>
+                      {user?.name?.split(" ").map(n => n[0]).join("").toUpperCase() || "U"}
+                    </AvatarFallback>
+                  </Avatar>
+                  <span className="hidden md:inline">{user?.name}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel>
+                  <div>
+                    <p>{user?.name}</p>
+                    <p className="text-sm text-slate-600">{user?.email}</p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleLogout} className="text-red-600 cursor-pointer">
+                  <LogOut className="size-4 mr-2" />
+                  Cerrar sesión
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </header>

@@ -6,11 +6,31 @@ import { Progress } from "../components/Progress";
 import { Schedule } from "../components/Schedule";
 import { Profile } from "../components/Profile";
 import { Layout } from "../components/Layout";
+import { Login } from "../components/auth/Login";
+import { Register } from "../components/auth/Register";
+import { ForgotPassword } from "../components/auth/ForgotPassword";
+import { ProtectedRoute } from "../components/auth/ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
+    path: "/login",
+    Component: Login,
+  },
+  {
+    path: "/register",
+    Component: Register,
+  },
+  {
+    path: "/forgot-password",
+    Component: ForgotPassword,
+  },
+  {
     path: "/",
-    Component: Layout,
+    element: (
+      <ProtectedRoute>
+        <Layout />
+      </ProtectedRoute>
+    ),
     children: [
       { index: true, Component: Home },
       { path: "workouts", Component: Workouts },
