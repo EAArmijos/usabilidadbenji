@@ -142,8 +142,8 @@ export function Progress() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-slate-900">Progreso y estadísticas</h2>
-        <p className="text-slate-600">Visualiza tu evolución y logros</p>
+        <h2 className="text-foreground">Progreso y estadísticas</h2>
+        <p className="text-muted-foreground">Visualiza tu evolución y logros</p>
       </div>
 
       {/* Stats Overview */}
@@ -155,11 +155,11 @@ export function Progress() {
               <CardContent className="pt-6">
                 <div className="flex items-start justify-between">
                   <div className="space-y-1">
-                    <p className="text-sm text-slate-600">{stat.label}</p>
-                    <p className={`text-slate-900 ${stat.color}`}>{stat.value}</p>
-                    <p className="text-xs text-slate-500">{stat.change}</p>
+                    <p className="text-sm text-muted-foreground">{stat.label}</p>
+                    <p className={`text-foreground ${stat.color}`}>{stat.value}</p>
+                    <p className="text-xs text-muted-foreground">{stat.change}</p>
                   </div>
-                  <div className={`p-2 rounded-lg bg-slate-100 ${stat.color}`}>
+                  <div className={`p-2 rounded-lg bg-muted ${stat.color}`}>
                     <Icon className="size-5" />
                   </div>
                 </div>
@@ -300,30 +300,30 @@ export function Progress() {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {bodyMeasurements.map((measurement) => (
-                <div key={measurement.parte} className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">{measurement.parte}</span>
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm text-slate-500">{measurement.inicial}cm</span>
-                      <span className="text-sm">→</span>
-                      <span className="text-sm">{measurement.actual}cm</span>
-                      <Badge 
-                        variant="secondary"
-                        className={measurement.cambio.startsWith('+') ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'}
-                      >
-                        {measurement.cambio}
-                      </Badge>
-                    </div>
-                  </div>
-                  <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-orange-500 transition-all"
-                      style={{ width: `${(measurement.actual / measurement.inicial) * 100}%` }}
-                    />
-                  </div>
-                </div>
-              ))}
+               {bodyMeasurements.map((measurement) => (
+                 <div key={measurement.parte} className="space-y-2">
+                   <div className="flex justify-between items-center">
+                     <span className="text-sm text-foreground">{measurement.parte}</span>
+                     <div className="flex items-center gap-2">
+                       <span className="text-sm text-muted-foreground">{measurement.inicial}cm</span>
+                       <span className="text-sm text-foreground">→</span>
+                       <span className="text-sm text-foreground">{measurement.actual}cm</span>
+                       <Badge 
+                         variant="secondary"
+                         className={measurement.cambio.startsWith('+') ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'}
+                       >
+                         {measurement.cambio}
+                       </Badge>
+                     </div>
+                   </div>
+                   <div className="h-2 bg-muted rounded-full overflow-hidden">
+                     <div 
+                       className="h-full bg-orange-500 transition-all"
+                       style={{ width: `${(measurement.actual / measurement.inicial) * 100}%` }}
+                     />
+                   </div>
+                 </div>
+               ))}
             </div>
           </CardContent>
         </Card>
@@ -338,50 +338,50 @@ export function Progress() {
             <CardDescription>Tus últimas conquistas</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3 max-h-[400px] overflow-y-auto">
-              {achievements.map((achievement, index) => (
-                <div key={index} className="flex items-start gap-3 p-3 rounded-lg bg-slate-50 hover:bg-slate-100 transition-colors">
-                  <div className="text-2xl">{achievement.icon}</div>
-                  <div className="flex-1">
-                    <p className="text-slate-900">{achievement.name}</p>
-                    <p className="text-sm text-slate-600">{achievement.description}</p>
-                    <div className="flex items-center gap-2 mt-1">
-                      <Calendar className="size-3 text-slate-400" />
-                      <span className="text-xs text-slate-500">{achievement.date}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+             <div className="space-y-3 max-h-[400px] overflow-y-auto">
+               {achievements.map((achievement, index) => (
+                 <div key={index} className="flex items-start gap-3 p-3 rounded-lg bg-muted hover:bg-accent transition-colors">
+                   <div className="text-2xl">{achievement.icon}</div>
+                   <div className="flex-1">
+                     <p className="text-foreground">{achievement.name}</p>
+                     <p className="text-sm text-muted-foreground">{achievement.description}</p>
+                     <div className="flex items-center gap-2 mt-1">
+                       <Calendar className="size-3 text-muted-foreground" />
+                       <span className="text-xs text-muted-foreground">{achievement.date}</span>
+                     </div>
+                   </div>
+                 </div>
+               ))}
+             </div>
           </CardContent>
         </Card>
       </div>
 
       {/* Monthly Summary */}
-      <Card>
+       <Card>
         <CardHeader>
           <CardTitle>Resumen mensual</CardTitle>
           <CardDescription>Noviembre 2025</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="text-center p-4 rounded-lg bg-gradient-to-br from-orange-50 to-red-50">
-              <p className="text-slate-600 text-sm">Días activos</p>
-              <p className="text-slate-900 mt-1">24 / 30</p>
+           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="text-center p-4 rounded-lg bg-gradient-to-br from-orange-500/10 to-red-500/10 dark:from-orange-500/20 dark:to-red-500/20">
+              <p className="text-muted-foreground text-sm">Días activos</p>
+              <p className="text-foreground mt-1">24 / 30</p>
             </div>
-            <div className="text-center p-4 rounded-lg bg-gradient-to-br from-blue-50 to-cyan-50">
-              <p className="text-slate-600 text-sm">Total minutos</p>
-              <p className="text-slate-900 mt-1">1,280 min</p>
+            <div className="text-center p-4 rounded-lg bg-gradient-to-br from-blue-500/10 to-cyan-500/10 dark:from-blue-500/20 dark:to-cyan-500/20">
+              <p className="text-muted-foreground text-sm">Total minutos</p>
+              <p className="text-foreground mt-1">1,280 min</p>
             </div>
-            <div className="text-center p-4 rounded-lg bg-gradient-to-br from-green-50 to-emerald-50">
-              <p className="text-slate-600 text-sm">Total calorías</p>
-              <p className="text-slate-900 mt-1">9,640 kcal</p>
+            <div className="text-center p-4 rounded-lg bg-gradient-to-br from-green-500/10 to-emerald-500/10 dark:from-green-500/20 dark:to-emerald-500/20">
+              <p className="text-muted-foreground text-sm">Total calorías</p>
+              <p className="text-foreground mt-1">9,640 kcal</p>
             </div>
-            <div className="text-center p-4 rounded-lg bg-gradient-to-br from-purple-50 to-pink-50">
-              <p className="text-slate-600 text-sm">Promedio diario</p>
-              <p className="text-slate-900 mt-1">53 min</p>
+            <div className="text-center p-4 rounded-lg bg-gradient-to-br from-purple-500/10 to-pink-500/10 dark:from-purple-500/20 dark:to-pink-500/20">
+              <p className="text-muted-foreground text-sm">Promedio diario</p>
+              <p className="text-foreground mt-1">53 min</p>
             </div>
-          </div>
+           </div>
         </CardContent>
       </Card>
     </div>

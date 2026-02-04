@@ -148,8 +148,8 @@ export function Schedule() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-slate-900">Horario de entrenamientos</h2>
-          <p className="text-slate-600">Planifica y organiza tus sesiones</p>
+          <h2 className="text-foreground">Horario de entrenamientos</h2>
+          <p className="text-muted-foreground">Planifica y organiza tus sesiones</p>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
@@ -240,11 +240,11 @@ export function Schedule() {
           <CardContent>
             <div className="space-y-3">
               {weekSchedule.map((day) => (
-                <div key={day.day} className="border rounded-lg p-4 space-y-3">
+                 <div key={day.day} className="border rounded-lg p-4 space-y-3">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-slate-900">{day.day}</p>
-                      <p className="text-sm text-slate-600">{day.date}</p>
+                      <p className="text-foreground">{day.day}</p>
+                      <p className="text-sm text-muted-foreground">{day.date}</p>
                     </div>
                     <Badge variant="secondary">
                       {day.workouts.length} {day.workouts.length === 1 ? 'sesión' : 'sesiones'}
@@ -255,7 +255,7 @@ export function Schedule() {
                       <div
                         key={index}
                         className={`flex items-center justify-between p-3 rounded-lg ${
-                          workout.completed ? 'bg-green-50' : 'bg-slate-50'
+                          workout.completed ? 'bg-green-500/20' : 'bg-muted'
                         }`}
                       >
                         <div className="flex items-center gap-3">
@@ -263,8 +263,8 @@ export function Schedule() {
                             {getWorkoutIcon(workout.type)}
                           </div>
                           <div>
-                            <p className="text-sm">{workout.name}</p>
-                            <div className="flex items-center gap-2 text-xs text-slate-600">
+                            <p className="text-sm text-foreground">{workout.name}</p>
+                            <div className="flex items-center gap-2 text-xs text-muted-foreground">
                               <Clock className="size-3" />
                               {workout.time} • {workout.duration}
                             </div>
@@ -298,46 +298,46 @@ export function Schedule() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {upcomingClasses.map((classItem, index) => (
-              <div key={index} className="border rounded-lg p-4 space-y-3 hover:shadow-md transition-shadow">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h3 className="text-slate-900">{classItem.name}</h3>
-                    <p className="text-sm text-slate-600">con {classItem.instructor}</p>
-                  </div>
-                  <Badge variant="secondary">{classItem.level}</Badge>
-                </div>
-                
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm text-slate-600">
-                    <Clock className="size-4" />
-                    {classItem.time} • {classItem.duration}
-                  </div>
-                  
-                  <div className="flex items-center gap-2">
-                    {classItem.spots < 5 ? (
-                      <AlertCircle className="size-4 text-orange-500" />
-                    ) : (
-                      <CheckCircle2 className="size-4 text-green-500" />
-                    )}
-                    <span className="text-sm text-slate-600">
-                      {classItem.spots} lugares disponibles de {classItem.capacity}
-                    </span>
-                  </div>
-                  
-                  <div className="w-full bg-slate-200 rounded-full h-2">
-                    <div
-                      className="bg-orange-500 h-2 rounded-full"
-                      style={{ width: `${((classItem.capacity - classItem.spots) / classItem.capacity) * 100}%` }}
-                    />
-                  </div>
-                </div>
-
-                <Button className="w-full" variant={classItem.spots < 5 ? "default" : "outline"}>
-                  {classItem.spots < 5 ? "¡Reserva ahora!" : "Reservar lugar"}
-                </Button>
-              </div>
-            ))}
+             {upcomingClasses.map((classItem, index) => (
+               <div key={index} className="border rounded-lg p-4 space-y-3 hover:shadow-md transition-shadow">
+                 <div className="flex items-start justify-between">
+                   <div>
+                     <h3 className="text-foreground">{classItem.name}</h3>
+                     <p className="text-sm text-muted-foreground">con {classItem.instructor}</p>
+                   </div>
+                   <Badge variant="secondary">{classItem.level}</Badge>
+                 </div>
+                 
+                 <div className="space-y-2">
+                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                     <Clock className="size-4" />
+                     {classItem.time} • {classItem.duration}
+                   </div>
+                   
+                   <div className="flex items-center gap-2">
+                     {classItem.spots < 5 ? (
+                       <AlertCircle className="size-4 text-orange-500" />
+                     ) : (
+                       <CheckCircle2 className="size-4 text-green-500" />
+                     )}
+                     <span className="text-sm text-muted-foreground">
+                       {classItem.spots} lugares disponibles de {classItem.capacity}
+                     </span>
+                   </div>
+                   
+                   <div className="w-full bg-accent rounded-full h-2">
+                     <div
+                       className="bg-orange-500 h-2 rounded-full"
+                       style={{ width: `${((classItem.capacity - classItem.spots) / classItem.capacity) * 100}%` }}
+                     />
+                   </div>
+                 </div>
+ 
+                 <Button className="w-full" variant={classItem.spots < 5 ? "default" : "outline"}>
+                   {classItem.spots < 5 ? "¡Reserva ahora!" : "Reservar lugar"}
+                 </Button>
+               </div>
+             ))}
           </div>
         </CardContent>
       </Card>
@@ -350,8 +350,8 @@ export function Schedule() {
               <div className="mx-auto size-12 rounded-full bg-green-100 flex items-center justify-center">
                 <CheckCircle2 className="size-6 text-green-600" />
               </div>
-              <p className="text-slate-900">24 completados</p>
-              <p className="text-sm text-slate-600">Este mes</p>
+              <p className="text-foreground">24 completados</p>
+              <p className="text-sm text-muted-foreground">Este mes</p>
             </div>
           </CardContent>
         </Card>
@@ -362,8 +362,8 @@ export function Schedule() {
               <div className="mx-auto size-12 rounded-full bg-blue-100 flex items-center justify-center">
                 <CalendarIcon className="size-6 text-blue-600" />
               </div>
-              <p className="text-slate-900">6 programados</p>
-              <p className="text-sm text-slate-600">Esta semana</p>
+              <p className="text-foreground">6 programados</p>
+              <p className="text-sm text-muted-foreground">Esta semana</p>
             </div>
           </CardContent>
         </Card>
@@ -374,8 +374,8 @@ export function Schedule() {
               <div className="mx-auto size-12 rounded-full bg-orange-100 flex items-center justify-center">
                 <Clock className="size-6 text-orange-600" />
               </div>
-              <p className="text-slate-900">320 minutos</p>
-              <p className="text-sm text-slate-600">Tiempo total semanal</p>
+              <p className="text-foreground">320 minutos</p>
+              <p className="text-sm text-muted-foreground">Tiempo total semanal</p>
             </div>
           </CardContent>
         </Card>

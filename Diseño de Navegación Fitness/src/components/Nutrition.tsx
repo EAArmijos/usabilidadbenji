@@ -4,6 +4,7 @@ import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Progress } from "./ui/progress";
 import { Separator } from "./ui/separator";
+import { useState } from "react";
 import { 
   Apple, 
   Coffee, 
@@ -17,8 +18,12 @@ import {
   Cookie
 } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { toast } from "sonner";
 
 export function Nutrition() {
+  const [waterGlasses, setWaterGlasses] = useState(6);
+  const totalWaterGlasses = 8;
+
   const dailyGoals = {
     calories: { current: 1850, goal: 2200 },
     protein: { current: 95, goal: 150 },
@@ -117,11 +122,31 @@ export function Nutrition() {
     return Math.min((current / goal) * 100, 100);
   };
 
+  const handleAddWater = () => {
+    if (waterGlasses < totalWaterGlasses) {
+      setWaterGlasses(waterGlasses + 1);
+      toast.success("¡Vaso registrado!", {
+        description: `${waterGlasses + 1} de ${totalWaterGlasses} vasos de agua`,
+      });
+    } else {
+      toast.success("¡Objetivo cumplido!", {
+        description: "Has completado tu objetivo de hidratación del día",
+      });
+    }
+  };
+
+  const handleResetWater = () => {
+    setWaterGlasses(0);
+    toast.info("Conteo reiniciado", {
+      description: "El contador de vasos de agua ha sido reiniciado",
+    });
+  };
+
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-slate-900">Plan nutricional</h2>
-        <p className="text-slate-600">Seguimiento de tu alimentación y macros diarias</p>
+        <h2 className="text-foreground">Plan nutricional</h2>
+        <p className="text-muted-foreground">Seguimiento de tu alimentación y macros diarias</p>
       </div>
 
       {/* Daily Goals */}
@@ -141,11 +166,11 @@ export function Nutrition() {
             <Progress value={calculatePercentage(dailyGoals.calories.current, dailyGoals.calories.goal)} />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-2">
               <div className="flex justify-between">
-                <span className="text-sm text-slate-600">Proteínas</span>
-                <span className="text-sm">
+                <span className="text-sm text-muted-foreground">Proteínas</span>
+                <span className="text-sm text-foreground">
                   {dailyGoals.protein.current}g / {dailyGoals.protein.goal}g
                 </span>
               </div>
@@ -157,8 +182,8 @@ export function Nutrition() {
 
             <div className="space-y-2">
               <div className="flex justify-between">
-                <span className="text-sm text-slate-600">Carbohidratos</span>
-                <span className="text-sm">
+                <span className="text-sm text-muted-foreground">Carbohidratos</span>
+                <span className="text-sm text-foreground">
                   {dailyGoals.carbs.current}g / {dailyGoals.carbs.goal}g
                 </span>
               </div>
@@ -170,8 +195,8 @@ export function Nutrition() {
 
             <div className="space-y-2">
               <div className="flex justify-between">
-                <span className="text-sm text-slate-600">Grasas</span>
-                <span className="text-sm">
+                <span className="text-sm text-muted-foreground">Grasas</span>
+                <span className="text-sm text-foreground">
                   {dailyGoals.fats.current}g / {dailyGoals.fats.goal}g
                 </span>
               </div>
@@ -208,200 +233,200 @@ export function Nutrition() {
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="all" className="space-y-4 mt-4">
-              {meals.map((meal, index) => {
-                const Icon = meal.icon;
-                return (
-                  <div key={index} className="border rounded-lg p-4 space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="size-10 rounded-full bg-orange-100 flex items-center justify-center">
-                          <Icon className="size-5 text-orange-600" />
-                        </div>
-                        <div>
-                          <h3 className="text-slate-900">{meal.name}</h3>
-                          <p className="text-sm text-slate-600">{meal.time}</p>
-                        </div>
-                      </div>
-                      <Badge variant="secondary">{meal.calories} kcal</Badge>
-                    </div>
-                    <Separator />
-                    <div className="space-y-2">
-                      {meal.items.map((item, itemIndex) => (
-                        <div
-                          key={itemIndex}
-                          className="flex items-center justify-between p-2 rounded bg-slate-50"
-                        >
-                          <span className="text-sm">{item.name}</span>
-                          <div className="flex gap-3 text-xs text-slate-600">
-                            <span>{item.calories} cal</span>
-                            <span>P: {item.protein}g</span>
-                            <span>C: {item.carbs}g</span>
-                            <span>G: {item.fats}g</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </TabsContent>
+             <TabsContent value="all" className="space-y-4 mt-4">
+               {meals.map((meal, index) => {
+                 const Icon = meal.icon;
+                 return (
+                   <div key={index} className="border rounded-lg p-4 space-y-3">
+                     <div className="flex items-center justify-between">
+                       <div className="flex items-center gap-3">
+                         <div className="size-10 rounded-full bg-orange-100 flex items-center justify-center">
+                           <Icon className="size-5 text-orange-600" />
+                         </div>
+                         <div>
+                           <h3 className="text-foreground">{meal.name}</h3>
+                           <p className="text-sm text-muted-foreground">{meal.time}</p>
+                         </div>
+                       </div>
+                       <Badge variant="secondary">{meal.calories} kcal</Badge>
+                     </div>
+                     <Separator />
+                     <div className="space-y-2">
+                       {meal.items.map((item, itemIndex) => (
+                         <div
+                           key={itemIndex}
+                           className="flex items-center justify-between p-2 rounded bg-muted"
+                         >
+                           <span className="text-sm text-foreground">{item.name}</span>
+                           <div className="flex gap-3 text-xs text-muted-foreground">
+                             <span>{item.calories} cal</span>
+                             <span>P: {item.protein}g</span>
+                             <span>C: {item.carbs}g</span>
+                             <span>G: {item.fats}g</span>
+                           </div>
+                         </div>
+                       ))}
+                     </div>
+                   </div>
+                 );
+               })}
+             </TabsContent>
 
-            <TabsContent value="breakfast" className="mt-4">
-              {meals.slice(0, 1).map((meal, index) => {
-                const Icon = meal.icon;
-                return (
-                  <div key={index} className="border rounded-lg p-4 space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="size-10 rounded-full bg-orange-100 flex items-center justify-center">
-                          <Icon className="size-5 text-orange-600" />
-                        </div>
-                        <div>
-                          <h3 className="text-slate-900">{meal.name}</h3>
-                          <p className="text-sm text-slate-600">{meal.time}</p>
-                        </div>
-                      </div>
-                      <Badge variant="secondary">{meal.calories} kcal</Badge>
-                    </div>
-                    <Separator />
-                    <div className="space-y-2">
-                      {meal.items.map((item, itemIndex) => (
-                        <div
-                          key={itemIndex}
-                          className="flex items-center justify-between p-2 rounded bg-slate-50"
-                        >
-                          <span className="text-sm">{item.name}</span>
-                          <div className="flex gap-3 text-xs text-slate-600">
-                            <span>{item.calories} cal</span>
-                            <span>P: {item.protein}g</span>
-                            <span>C: {item.carbs}g</span>
-                            <span>G: {item.fats}g</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </TabsContent>
+             <TabsContent value="breakfast" className="mt-4">
+               {meals.slice(0, 1).map((meal, index) => {
+                 const Icon = meal.icon;
+                 return (
+                   <div key={index} className="border rounded-lg p-4 space-y-3">
+                     <div className="flex items-center justify-between">
+                       <div className="flex items-center gap-3">
+                         <div className="size-10 rounded-full bg-orange-100 flex items-center justify-center">
+                           <Icon className="size-5 text-orange-600" />
+                         </div>
+                         <div>
+                           <h3 className="text-foreground">{meal.name}</h3>
+                           <p className="text-sm text-muted-foreground">{meal.time}</p>
+                         </div>
+                       </div>
+                       <Badge variant="secondary">{meal.calories} kcal</Badge>
+                     </div>
+                     <Separator />
+                     <div className="space-y-2">
+                       {meal.items.map((item, itemIndex) => (
+                         <div
+                           key={itemIndex}
+                           className="flex items-center justify-between p-2 rounded bg-muted"
+                         >
+                           <span className="text-sm text-foreground">{item.name}</span>
+                           <div className="flex gap-3 text-xs text-muted-foreground">
+                             <span>{item.calories} cal</span>
+                             <span>P: {item.protein}g</span>
+                             <span>C: {item.carbs}g</span>
+                             <span>G: {item.fats}g</span>
+                           </div>
+                         </div>
+                       ))}
+                     </div>
+                   </div>
+                 );
+               })}
+             </TabsContent>
 
-            <TabsContent value="lunch" className="mt-4">
-              {meals.slice(1, 2).map((meal, index) => {
-                const Icon = meal.icon;
-                return (
-                  <div key={index} className="border rounded-lg p-4 space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="size-10 rounded-full bg-orange-100 flex items-center justify-center">
-                          <Icon className="size-5 text-orange-600" />
-                        </div>
-                        <div>
-                          <h3 className="text-slate-900">{meal.name}</h3>
-                          <p className="text-sm text-slate-600">{meal.time}</p>
-                        </div>
-                      </div>
-                      <Badge variant="secondary">{meal.calories} kcal</Badge>
-                    </div>
-                    <Separator />
-                    <div className="space-y-2">
-                      {meal.items.map((item, itemIndex) => (
-                        <div
-                          key={itemIndex}
-                          className="flex items-center justify-between p-2 rounded bg-slate-50"
-                        >
-                          <span className="text-sm">{item.name}</span>
-                          <div className="flex gap-3 text-xs text-slate-600">
-                            <span>{item.calories} cal</span>
-                            <span>P: {item.protein}g</span>
-                            <span>C: {item.carbs}g</span>
-                            <span>G: {item.fats}g</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </TabsContent>
+             <TabsContent value="lunch" className="mt-4">
+               {meals.slice(1, 2).map((meal, index) => {
+                 const Icon = meal.icon;
+                 return (
+                   <div key={index} className="border rounded-lg p-4 space-y-3">
+                     <div className="flex items-center justify-between">
+                       <div className="flex items-center gap-3">
+                         <div className="size-10 rounded-full bg-orange-100 flex items-center justify-center">
+                           <Icon className="size-5 text-orange-600" />
+                         </div>
+                         <div>
+                           <h3 className="text-foreground">{meal.name}</h3>
+                           <p className="text-sm text-muted-foreground">{meal.time}</p>
+                         </div>
+                       </div>
+                       <Badge variant="secondary">{meal.calories} kcal</Badge>
+                     </div>
+                     <Separator />
+                     <div className="space-y-2">
+                       {meal.items.map((item, itemIndex) => (
+                         <div
+                           key={itemIndex}
+                           className="flex items-center justify-between p-2 rounded bg-muted"
+                         >
+                           <span className="text-sm text-foreground">{item.name}</span>
+                           <div className="flex gap-3 text-xs text-muted-foreground">
+                             <span>{item.calories} cal</span>
+                             <span>P: {item.protein}g</span>
+                             <span>C: {item.carbs}g</span>
+                             <span>G: {item.fats}g</span>
+                           </div>
+                         </div>
+                       ))}
+                     </div>
+                   </div>
+                 );
+               })}
+             </TabsContent>
 
-            <TabsContent value="snack" className="mt-4">
-              {meals.slice(2, 3).map((meal, index) => {
-                const Icon = meal.icon;
-                return (
-                  <div key={index} className="border rounded-lg p-4 space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="size-10 rounded-full bg-orange-100 flex items-center justify-center">
-                          <Icon className="size-5 text-orange-600" />
-                        </div>
-                        <div>
-                          <h3 className="text-slate-900">{meal.name}</h3>
-                          <p className="text-sm text-slate-600">{meal.time}</p>
-                        </div>
-                      </div>
-                      <Badge variant="secondary">{meal.calories} kcal</Badge>
-                    </div>
-                    <Separator />
-                    <div className="space-y-2">
-                      {meal.items.map((item, itemIndex) => (
-                        <div
-                          key={itemIndex}
-                          className="flex items-center justify-between p-2 rounded bg-slate-50"
-                        >
-                          <span className="text-sm">{item.name}</span>
-                          <div className="flex gap-3 text-xs text-slate-600">
-                            <span>{item.calories} cal</span>
-                            <span>P: {item.protein}g</span>
-                            <span>C: {item.carbs}g</span>
-                            <span>G: {item.fats}g</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </TabsContent>
+             <TabsContent value="snack" className="mt-4">
+               {meals.slice(2, 3).map((meal, index) => {
+                 const Icon = meal.icon;
+                 return (
+                   <div key={index} className="border rounded-lg p-4 space-y-3">
+                     <div className="flex items-center justify-between">
+                       <div className="flex items-center gap-3">
+                         <div className="size-10 rounded-full bg-orange-100 flex items-center justify-center">
+                           <Icon className="size-5 text-orange-600" />
+                         </div>
+                         <div>
+                           <h3 className="text-foreground">{meal.name}</h3>
+                           <p className="text-sm text-muted-foreground">{meal.time}</p>
+                         </div>
+                       </div>
+                       <Badge variant="secondary">{meal.calories} kcal</Badge>
+                     </div>
+                     <Separator />
+                     <div className="space-y-2">
+                       {meal.items.map((item, itemIndex) => (
+                         <div
+                           key={itemIndex}
+                           className="flex items-center justify-between p-2 rounded bg-muted"
+                         >
+                           <span className="text-sm text-foreground">{item.name}</span>
+                           <div className="flex gap-3 text-xs text-muted-foreground">
+                             <span>{item.calories} cal</span>
+                             <span>P: {item.protein}g</span>
+                             <span>C: {item.carbs}g</span>
+                             <span>G: {item.fats}g</span>
+                           </div>
+                         </div>
+                       ))}
+                     </div>
+                   </div>
+                 );
+               })}
+             </TabsContent>
 
-            <TabsContent value="dinner" className="mt-4">
-              {meals.slice(3, 4).map((meal, index) => {
-                const Icon = meal.icon;
-                return (
-                  <div key={index} className="border rounded-lg p-4 space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="size-10 rounded-full bg-orange-100 flex items-center justify-center">
-                          <Icon className="size-5 text-orange-600" />
-                        </div>
-                        <div>
-                          <h3 className="text-slate-900">{meal.name}</h3>
-                          <p className="text-sm text-slate-600">{meal.time}</p>
-                        </div>
-                      </div>
-                      <Badge variant="secondary">{meal.calories} kcal</Badge>
-                    </div>
-                    <Separator />
-                    <div className="space-y-2">
-                      {meal.items.map((item, itemIndex) => (
-                        <div
-                          key={itemIndex}
-                          className="flex items-center justify-between p-2 rounded bg-slate-50"
-                        >
-                          <span className="text-sm">{item.name}</span>
-                          <div className="flex gap-3 text-xs text-slate-600">
-                            <span>{item.calories} cal</span>
-                            <span>P: {item.protein}g</span>
-                            <span>C: {item.carbs}g</span>
-                            <span>G: {item.fats}g</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </TabsContent>
+             <TabsContent value="dinner" className="mt-4">
+               {meals.slice(3, 4).map((meal, index) => {
+                 const Icon = meal.icon;
+                 return (
+                   <div key={index} className="border rounded-lg p-4 space-y-3">
+                     <div className="flex items-center justify-between">
+                       <div className="flex items-center gap-3">
+                         <div className="size-10 rounded-full bg-orange-100 flex items-center justify-center">
+                           <Icon className="size-5 text-orange-600" />
+                         </div>
+                         <div>
+                           <h3 className="text-foreground">{meal.name}</h3>
+                           <p className="text-sm text-muted-foreground">{meal.time}</p>
+                         </div>
+                       </div>
+                       <Badge variant="secondary">{meal.calories} kcal</Badge>
+                     </div>
+                     <Separator />
+                     <div className="space-y-2">
+                       {meal.items.map((item, itemIndex) => (
+                         <div
+                           key={itemIndex}
+                           className="flex items-center justify-between p-2 rounded bg-muted"
+                         >
+                           <span className="text-sm text-foreground">{item.name}</span>
+                           <div className="flex gap-3 text-xs text-muted-foreground">
+                             <span>{item.calories} cal</span>
+                             <span>P: {item.protein}g</span>
+                             <span>C: {item.carbs}g</span>
+                             <span>G: {item.fats}g</span>
+                           </div>
+                         </div>
+                       ))}
+                     </div>
+                   </div>
+                 );
+               })}
+             </TabsContent>
           </Tabs>
         </CardContent>
       </Card>
@@ -417,22 +442,22 @@ export function Nutrition() {
             {foodCategories.map((category) => {
               const Icon = category.icon;
               return (
-                <div key={category.name} className="border rounded-lg p-4 space-y-3">
-                  <div className="flex items-center gap-3">
-                    <div className={`size-10 rounded-full ${category.color} flex items-center justify-center`}>
-                      <Icon className="size-5" />
-                    </div>
-                    <h3 className="text-slate-900">{category.name}</h3>
-                  </div>
-                  <ul className="space-y-1">
-                    {category.foods.map((food, index) => (
-                      <li key={index} className="text-sm text-slate-600 flex items-center gap-2">
-                        <div className="size-1.5 rounded-full bg-slate-400" />
-                        {food}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                 <div key={category.name} className="border rounded-lg p-4 space-y-3">
+                   <div className="flex items-center gap-3">
+                     <div className={`size-10 rounded-full ${category.color} flex items-center justify-center`}>
+                       <Icon className="size-5" />
+                     </div>
+                     <h3 className="text-foreground">{category.name}</h3>
+                   </div>
+                   <ul className="space-y-1">
+                     {category.foods.map((food, index) => (
+                       <li key={index} className="text-sm text-muted-foreground flex items-center gap-2">
+                         <div className="size-1.5 rounded-full bg-muted-foreground" />
+                         {food}
+                       </li>
+                     ))}
+                   </ul>
+                 </div>
               );
             })}
           </div>
@@ -448,22 +473,29 @@ export function Nutrition() {
         <CardContent className="space-y-4">
           <div>
             <div className="flex justify-between mb-2">
-              <span>Vasos de agua (250ml)</span>
-              <span>6 / 8 vasos</span>
+              <span className="text-foreground">Vasos de agua (250ml)</span>
+              <span className="text-foreground">{waterGlasses} / {totalWaterGlasses} vasos</span>
             </div>
-            <Progress value={75} />
+            <Progress value={calculatePercentage(waterGlasses, totalWaterGlasses)} />
           </div>
           <div className="flex gap-2">
-            {Array.from({ length: 8 }).map((_, i) => (
+            {Array.from({ length: totalWaterGlasses }).map((_, i) => (
               <div
                 key={i}
-                className={`flex-1 h-12 rounded ${
-                  i < 6 ? "bg-blue-500" : "bg-slate-200"
-                } transition-colors`}
+                className={`flex-1 h-12 rounded transition-colors ${
+                  i < waterGlasses ? "bg-blue-500" : "bg-accent"
+                }`}
               />
             ))}
           </div>
-          <Button className="w-full">Registrar vaso de agua</Button>
+          <div className="flex gap-2">
+            <Button onClick={handleResetWater} variant="outline" className="flex-1">
+              Reiniciar
+            </Button>
+            <Button onClick={handleAddWater} className="flex-1" disabled={waterGlasses >= totalWaterGlasses}>
+              {waterGlasses >= totalWaterGlasses ? "¡Objetivo cumplido!" : "Registrar vaso de agua"}
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>

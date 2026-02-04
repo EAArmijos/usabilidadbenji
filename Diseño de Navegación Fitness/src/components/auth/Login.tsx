@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { useForm } from "react-hook-form@7.55.0";
+import { useForm } from "react-hook-form";
 import { 
   Dumbbell, 
   Mail, 
@@ -20,7 +20,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Alert, AlertDescription } from "../ui/alert";
 import { useAuth } from "../../contexts/AuthContext";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 
 interface LoginForm {
   email: string;
@@ -61,7 +61,7 @@ export function Login() {
   };
 
   return (
-    <div className="min-h-screen flex bg-slate-50">
+    <div className="min-h-screen flex bg-background">
       {/* Left Side - Branding and Features */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-orange-600 via-red-600 to-orange-700 p-12 flex-col justify-between relative overflow-hidden">
         {/* Background Decorations */}
@@ -155,13 +155,13 @@ export function Login() {
             <div className="inline-flex items-center justify-center bg-gradient-to-br from-orange-500 to-red-600 p-4 rounded-2xl mb-4 shadow-lg">
               <Dumbbell className="size-10 text-white" />
             </div>
-            <h1 className="text-slate-900 mb-2">Bienvenido a FitPro</h1>
+            <h1 className="text-foreground mb-2">Bienvenido a FitPro</h1>
           </div>
 
           {/* Welcome Text */}
           <div className="mb-8">
-            <h2 className="text-slate-900 text-3xl mb-2">Iniciar sesión</h2>
-            <p className="text-slate-600">
+            <h2 className="text-foreground text-3xl mb-2">Iniciar sesión</h2>
+            <p className="text-muted-foreground">
               Continúa tu viaje hacia una vida más saludable
             </p>
           </div>
@@ -178,11 +178,11 @@ export function Login() {
 
             {/* Email Field */}
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-slate-700">
+              <Label htmlFor="email" className="text-foreground">
                 Correo electrónico
               </Label>
               <div className="relative group">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-5 text-slate-400 group-focus-within:text-orange-500 transition-colors" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-5 text-muted-foreground group-focus-within:text-orange-500 transition-colors" />
                 <Input
                   id="email"
                   type="email"
@@ -208,7 +208,7 @@ export function Login() {
             {/* Password Field */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <Label htmlFor="password" className="text-slate-700">
+                <Label htmlFor="password" className="text-foreground">
                   Contraseña
                 </Label>
                 <Link
@@ -219,7 +219,7 @@ export function Login() {
                 </Link>
               </div>
               <div className="relative group">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-5 text-slate-400 group-focus-within:text-orange-500 transition-colors" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-5 text-muted-foreground group-focus-within:text-orange-500 transition-colors" />
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
@@ -236,7 +236,7 @@ export function Login() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {showPassword ? (
                     <EyeOff className="size-5" />
@@ -258,9 +258,9 @@ export function Login() {
               <input
                 type="checkbox"
                 id="remember"
-                className="size-4 rounded border-slate-300 text-orange-600 focus:ring-orange-500/20"
+                className="size-4 rounded border-border text-orange-600 focus:ring-orange-500/20"
               />
-              <label htmlFor="remember" className="text-sm text-slate-600 cursor-pointer">
+              <label htmlFor="remember" className="text-sm text-muted-foreground cursor-pointer">
                 Recordarme en este dispositivo
               </label>
             </div>
@@ -283,40 +283,11 @@ export function Login() {
                 </>
               )}
             </Button>
-
-            {/* Demo Credentials */}
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-200"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-slate-50 text-slate-500">O prueba con</span>
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 space-y-2">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="bg-blue-500 p-1 rounded">
-                  <CheckCircle2 className="size-4 text-white" />
-                </div>
-                <p className="text-sm text-blue-900">
-                  Credenciales de demostración
-                </p>
-              </div>
-              <div className="space-y-1 pl-7">
-                <p className="text-sm text-blue-800">
-                  <span className="text-blue-600">Email:</span> demo@fitpro.com
-                </p>
-                <p className="text-sm text-blue-800">
-                  <span className="text-blue-600">Contraseña:</span> demo123
-                </p>
-              </div>
-            </div>
           </form>
 
           {/* Register Link */}
           <div className="mt-8 text-center">
-            <p className="text-slate-600">
+            <p className="text-muted-foreground">
               ¿No tienes una cuenta?{" "}
               <Link
                 to="/register"
@@ -328,7 +299,7 @@ export function Login() {
           </div>
 
           {/* Footer */}
-          <p className="text-center mt-8 text-xs text-slate-400">
+          <p className="text-center mt-8 text-xs text-muted-foreground">
             Protegido por encriptación de grado empresarial
           </p>
         </div>

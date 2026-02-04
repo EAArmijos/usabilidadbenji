@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import { useForm } from "react-hook-form@7.55.0";
+import { useForm } from "react-hook-form";
 import { 
   Dumbbell, 
   Mail, 

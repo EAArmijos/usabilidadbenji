@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { useForm } from "react-hook-form@7.55.0";
+import { useForm } from "react-hook-form";
 import { 
   Dumbbell, 
   Mail, 
@@ -21,7 +21,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Alert, AlertDescription } from "../ui/alert";
 import { useAuth } from "../../contexts/AuthContext";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 
 interface RegisterForm {
   name: string;

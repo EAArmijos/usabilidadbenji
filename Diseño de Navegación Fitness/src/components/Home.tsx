@@ -18,8 +18,11 @@ import {
 } from "lucide-react";
 import { Link } from "react-router";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { useAuth } from "../contexts/AuthContext";
 
 export function Home() {
+  const { user } = useAuth();
+  
   const stats = [
     { label: "Calorías quemadas", value: "2,847", icon: Flame, color: "text-orange-500" },
     { label: "Entrenamientos", value: "24", icon: Target, color: "text-blue-500" },
@@ -39,14 +42,14 @@ export function Home() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Avatar className="size-16">
-            <AvatarImage src="" />
+            <AvatarImage src={user?.avatar} alt={user?.name} />
             <AvatarFallback className="bg-gradient-to-br from-orange-500 to-red-600 text-white">
-              JD
+              {user?.name?.split(" ").map(n => n[0]).join("").toUpperCase() || "U"}
             </AvatarFallback>
           </Avatar>
           <div>
-            <h2 className="text-slate-900">¡Bienvenido de nuevo, Juan!</h2>
-            <p className="text-slate-600">Es hora de entrenar y alcanzar tus metas</p>
+            <h2 className="text-foreground">¡Bienvenido de nuevo, {user?.name || 'Usuario'}!</h2>
+            <p className="text-muted-foreground">Es hora de entrenar y alcanzar tus metas</p>
           </div>
         </div>
         <Badge variant="secondary" className="gap-1">
@@ -72,10 +75,10 @@ export function Home() {
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-slate-600">{stat.label}</p>
-                    <p className={`text-slate-900 mt-1 ${stat.color}`}>{stat.value}</p>
+                    <p className="text-sm text-muted-foreground">{stat.label}</p>
+                    <p className={`text-foreground mt-1 ${stat.color}`}>{stat.value}</p>
                   </div>
-                  <div className={`p-3 rounded-lg bg-slate-100 ${stat.color}`}>
+                  <div className={`p-3 rounded-lg bg-muted ${stat.color}`}>
                     <Icon className="size-6" />
                   </div>
                 </div>
@@ -133,22 +136,22 @@ export function Home() {
           <CardContent className="space-y-4">
             <div>
               <div className="flex justify-between mb-2">
-                <span className="text-sm text-slate-600">Objetivo de calorías</span>
-                <span className="text-sm">2,847 / 3,500</span>
+                <span className="text-sm text-muted-foreground">Objetivo de calorías</span>
+                <span className="text-sm text-foreground">2,847 / 3,500</span>
               </div>
               <Progress value={81} className="h-2" />
             </div>
             <div>
               <div className="flex justify-between mb-2">
-                <span className="text-sm text-slate-600">Entrenamientos completados</span>
-                <span className="text-sm">4 / 5</span>
+                <span className="text-sm text-muted-foreground">Entrenamientos completados</span>
+                <span className="text-sm text-foreground">4 / 5</span>
               </div>
               <Progress value={80} className="h-2" />
             </div>
             <div>
               <div className="flex justify-between mb-2">
-                <span className="text-sm text-slate-600">Minutos activos</span>
-                <span className="text-sm">180 / 250</span>
+                <span className="text-sm text-muted-foreground">Minutos activos</span>
+                <span className="text-sm text-foreground">180 / 250</span>
               </div>
               <Progress value={72} className="h-2" />
             </div>
@@ -169,20 +172,20 @@ export function Home() {
               {recentWorkouts.map((workout, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-3 rounded-lg bg-slate-50 hover:bg-slate-100 transition-colors"
+                  className="flex items-center justify-between p-3 rounded-lg bg-muted hover:bg-accent transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <div className="size-10 rounded-full bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center">
                       <Activity className="size-5 text-white" />
                     </div>
                     <div>
-                      <p className="text-slate-900">{workout.name}</p>
-                      <p className="text-sm text-slate-600">{workout.date}</p>
+                      <p className="text-foreground">{workout.name}</p>
+                      <p className="text-sm text-muted-foreground">{workout.date}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-slate-900">{workout.calories} cal</p>
-                    <p className="text-sm text-slate-600">{workout.duration}</p>
+                    <p className="text-foreground">{workout.calories} cal</p>
+                    <p className="text-sm text-muted-foreground">{workout.duration}</p>
                   </div>
                 </div>
               ))}
