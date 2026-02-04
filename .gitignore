@@ -1,0 +1,30 @@
+# Dependencias (Lo más importante)
+node_modules/
+
+yarn.lock
+
+# Producción y Build
+dist/
+build/
+out/
+
+# Entorno y Seguridad (Claves secretas)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Archivos del Sistema Operativo (Basura)
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs de errores
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor
+.vscode/
+.idea/
