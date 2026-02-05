@@ -1,4 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { db } from "../firebase";
+import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
 
 interface User {
   id: string;
@@ -22,7 +24,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check for existing session on mount
+    // Restore session from localStorage (we don't use Firebase Auth)
     const storedUser = localStorage.getItem("fitpro_user");
     if (storedUser) {
       try {
@@ -35,24 +37,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    // Mock validation - in production, this would be a real API call
-    const users = JSON.parse(localStorage.getItem("fitpro_users") || "[]");
-    const foundUser = users.find(
-      (u: any) => u.email === email && u.password === password
+    // Query Firestore `User` collection for matching email+password
+    const q = query(
+      collection(db, "User"),
+      where("email", "==", email),
+      where("password", "==", password)
     );
-
-    if (!foundUser) {
+    const snapshot = await getDocs(q);
+    if (snapshot.empty) {
       throw new Error("Credenciales inválidas");
     }
 
+    const doc = snapshot.docs[0];
+    const data: any = doc.data();
+
     const userData: User = {
-      id: foundUser.id,
-      email: foundUser.email,
-      name: foundUser.name,
-      avatar: foundUser.avatar,
+      id: doc.id,
+      email: data.email,
+      name: data.name,
+      avatar: data.avatar,
     };
 
     setUser(userData);
@@ -60,32 +63,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const register = async (name: string, email: string, password: string) => {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    // Mock user creation
-    const users = JSON.parse(localStorage.getItem("fitpro_users") || "[]");
-    
-    if (users.some((u: any) => u.email === email)) {
+    // Prevent duplicate emails
+    const q = query(collection(db, "User"), where("email", "==", email));
+    const snapshot = await getDocs(q);
+    if (!snapshot.empty) {
       throw new Error("El email ya está registrado");
     }
 
+    const avatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+      name
+    )}&background=random`;
+
     const newUser = {
-      id: Date.now().toString(),
       name,
       email,
       password,
-      avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random`,
+      avatar,
+      createdAt: new Date().toISOString(),
     };
 
-    users.push(newUser);
-    localStorage.setItem("fitpro_users", JSON.stringify(users));
+    const ref = await addDoc(collection(db, "User"), newUser);
 
     const userData: User = {
-      id: newUser.id,
-      email: newUser.email,
-      name: newUser.name,
-      avatar: newUser.avatar,
+      id: ref.id,
+      email,
+      name,
+      avatar,
     };
 
     setUser(userData);
